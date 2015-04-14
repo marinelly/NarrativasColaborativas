@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+<p><strong><h3><%= @history.title %></h3></strong></p>
+<table>
+  <tbody>
+    <% @publications.each do |publication| %>
+      <hr>
+    	<div class="row">
+    		<div class="columns large-9 medium-6">
+    			<blockquote>
+    				<% if publication.type != 1 %>
+      			<%= raw publication.url %>
+    				<% else %>
+      			<%= link_to content_tag('h3',publication.content), publication %>
+    				<% end %>
+    				<cite><%= publication.user.name %> - <em><%= time_ago_in_words(publication.created_at) %> ago</em></cite>
+    			</blockquote>
+    	  </div>
+        <div class="columns large-3 medium-6">
+          <ul class="inline-list">
+            <li> <% if user_signed_in?  %> <%= link_to ' Continuar', continue_publication_path(:history_id =>@history.id, :llink => publication.id) %><% if !publication.singularity %> <%= link_to 'Usar como continuacion', :controller =>"histories", :action => "show_history_continuation", :publication_id => publication.id %><%end%><%end%></li>
+          </ul>
+        </div>
+      </div>
+    <% end %>
+  </tbody>
+</table>
+
+<!--
+<%= link_to 'Edit', edit_history_path(@history) %> |
+<%= link_to 'Back', histories_path %> -->
